@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition template="/template/page-standard.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">>
+
+	 <f:metadata>
+		<f:viewParam name="id" value="#{modelContrat.courant.id}" />
+		<f:viewAction action="#{modelContrat.actualiserCourant()}" />
+	</f:metadata>
+	
+	<ui:define name="head">
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$(".datepicker").datepicker({
+			dateFormat: 'dd/mm/yy',
+			changeYear: true,
+			yearRange: "1990:2030",
+		});
+	});
+	</script>
+	</ui:define>
+	
+
+	<ui:define name="titre">Contrat</ui:define>
+
+	<ui:define name="contenu">
+
+		<h:form>
+
+			<table class="form">
+				<!-- Champ pour le Parent -->
+			<tr>
+				<td>
+					<h:outputLabel for="id">Id :</h:outputLabel>				
+				</td>
+				<td>
+					<h:inputText id="id" size="5" readonly="true"
+						value="#{modelContrat.courant.id}" />
+					<br /><h:message for="id" errorClass="error"/>
+				</td>
+			</tr>
+				<tr>
+					<td><h:outputLabel for="parent">Parent :</h:outputLabel></td>
+					<td>
+					<h:selectOneMenu id="parent" 
+						value="#{modelContrat.courant.parent}" 
+						converter="#{converterParent}">
+						<f:selectItems value="#{modelParent.liste}" var="item"  itemLabel="#{item.nom} #{item.prenom}" itemValue="#{item}"/>
+					</h:selectOneMenu>
+					<br /><h:message for="parent" errorClass="error" />
+				</td>
+				</tr>
+
+				<!-- Champ pour le Nom de l'enfant -->
+				<tr>
+					<td><h:outputLabel for="nomEnfant">Nom de l'enfant :</h:outputLabel>
+					</td>
+					<td><h:inputText id="nomEnfant"
+							value="#{modelContrat.courant.nomEnfant}" maxlength="25"
+							required="true">
+							<f:validateLength maximum="25" />
+						</h:inputText> <br />
+					<h:message for="nomEnfant" errorClass="error" /></td>
+				</tr>
+
+				<!-- Champ pour le Prénom de l'enfant -->
+				<tr>
+					<td><h:outputLabel for="prenomEnfant">Prénom de l'enfant :</h:outputLabel>
+					</td>
+					<td><h:inputText id="prenomEnfant"
+							value="#{modelContrat.courant.prenomEnfant}" maxlength="25"
+							required="true">
+							<f:validateLength maximum="25" />
+						</h:inputText> <br />
+					<h:message for="prenomEnfant" errorClass="error" /></td>
+				</tr>
+
+				<!-- Champ pour la Date de naissance -->
+				<tr>
+					<td><h:outputLabel for="dateNaissance">Date de naissance :</h:outputLabel>
+					</td>
+					<td><h:inputText id="dateNaissance"
+							value="#{modelContrat.courant.dateNaissance}" required="true"  styleClass="form-control datepicker">
+							<f:validateRequired message="La date doit être renseignée" />
+							<f:convertDateTime pattern="dd/MM/yyyy"  type="localDate"/>
+						</h:inputText> <br />
+					<h:message for="dateNaissance" errorClass="error" /></td>
+				</tr>
+
+				<!-- Champ pour la Date de début -->
+				<tr>
+					<td><h:outputLabel for="dateDebut">Date de début :</h:outputLabel>
+					</td>
+					<td><h:inputText id="dateDebut"
+							value="#{modelContrat.courant.dateDebut}" required="true" styleClass="form-control datepicker">
+							<f:convertDateTime pattern="dd/MM/yyyy" type="localDate"/>
+							<f:validateRequired message="La date doit être renseignée" />
+						</h:inputText> <br />
+					<h:message for="dateDebut" errorClass="error" /></td>
+				</tr>
+
+				<!-- Champ pour la Date de fin -->
+				<tr>
+					<td><h:outputLabel for="dateFin">Date de fin :</h:outputLabel>
+					</td>
+					<td><h:inputText id="dateFin"
+							value="#{modelContrat.courant.dateFin}" required="true" styleClass="form-control datepicker">
+							<f:convertDateTime pattern="dd/MM/yyyy" type="localDate"/>
+							<f:validateRequired message="La date doit être renseignée"  />
+						</h:inputText> <br />
+					<h:message for="dateFin" errorClass="error" /></td>
+				</tr>
+
+				<!-- Champ pour le Tarif horaire -->
+				<tr>
+					<td><h:outputLabel for="tarifHoraire">Tarif horaire :</h:outputLabel>
+					</td>
+					<td><h:inputText id="tarifHoraire"
+							value="#{modelContrat.courant.tarifHoraire}" required="true">
+							<f:validateDoubleRange minimum="0" />
+							<f:validateRequired
+								message="Le tarif horaire doit être renseigné" />
+						</h:inputText> <br />
+					<h:message for="tarifHoraire" errorClass="error" /></td>
+				</tr>
+
+				<!-- Champ pour Indemnités Taux Horaire -->
+				<tr>
+					<td><h:outputLabel for="indemniteTauxHoraire">Indemnités Taux Horaire :</h:outputLabel>
+					</td>
+					<td><h:inputText id="indemniteTauxHoraire"
+							value="#{modelContrat.courant.indemniteTauxHoraire}"
+							required="true">
+							<f:validateDoubleRange minimum="0.352" maximum="1000.00" />
+						</h:inputText> <br />
+					<h:message for="indemniteTauxHoraire" errorClass="error" /></td>
+				</tr>
+
+				<!-- Champ pour Indemnité Montant Minimum -->
+				<tr>
+					<td><h:outputLabel for="indemniteMontantMinimum">Indemnités Montant Minimum :</h:outputLabel>
+					</td>
+					<td><h:inputText id="indemniteMontantMinimum"
+							value="#{modelContrat.courant.indemniteMontantMinimum}"
+							required="true">
+							<f:validateDoubleRange minimum="2.65" />
+						</h:inputText> <br />
+					<h:message for="indemniteMontantMinimum" errorClass="error" /></td>
+				</tr>
+
+				<!-- Champ pour Indemnités Repas -->
+				<tr>
+					<td><h:outputLabel for="indemniteRepas">Indemnités Repas :</h:outputLabel>
+					</td>
+					<td>
+<!-- 					<h:inputText id="indemniteRepas" -->
+<!-- 							value="#{modelContrat.courant.indemniteRepas}" required="true"> -->
+<!-- 							<f:validateDoubleRange minimum="1.00" maximum="5.00" /> -->
+<!-- 						</h:inputText> <br /> -->
+							<h:selectOneMenu value="#{modelContrat.courant.indemniteRepas}">
+								<f:selectItems value="#{modelContrat.courant.optionsIndemnitesRepas}" />
+							</h:selectOneMenu>
+					<h:message for="indemniteRepas" errorClass="error" /></td>
+				</tr>
+			</table>
+
+
+			<br />
+			<h:commandButton value="Valider"
+				action="#{modelContrat.validerMiseAJour()}" />
+			<h:button value="Retour" outcome="contrats" />
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

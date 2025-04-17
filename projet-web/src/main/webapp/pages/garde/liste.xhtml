@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/page-standard.xhtml">
+
+	<ui:define name="titre">Liste des Gardes</ui:define>
+
+	<ui:define name="contenu">
+
+		<h:form>
+
+			<h:dataTable styleClass="liste" value="#{modelGarde.liste}"
+				var="item" rowClasses="impair, pair"
+				columnClasses="right,right,right,right,right">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Contrat" />
+					</f:facet>
+				#{item.contrat.nomEnfant} #{item.contrat.prenomEnfant}
+			</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Date" />
+					</f:facet>
+				#{item.date}
+			</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Heure Arrivée" />
+					</f:facet>
+				#{item.heureArrivee}
+			</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Heure Départ" />
+					</f:facet>
+				#{item.heureDepart}
+			</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nombre de repas" />
+					</f:facet>
+				#{item.nombreRepasPris}
+			</h:column>
+			
+			<h:column>
+		        <f:facet name="header">Montant journalier</f:facet>
+		        <h:outputText value="#{item != null ? modelGarde.getMontantAPayer(item) : 'N/A'}" /> €
+		    </h:column>
+
+				<h:column rendered="#{compteActif.admin}">
+					<f:facet name="header">
+						<h:outputText value="Actions" />
+					</f:facet>
+					<h:button outcome="formulaire?id=#{item.id}"
+						image="#{ resource['images:modifier.png'] }" title="Modifier"
+						styleClass="image-action" />
+					<h:commandButton action="#{modelGarde.supprimer(item)}"
+						value="Supprimer"
+						onclick="return confirm('Confirmez-vous la suppression ?')"
+						image="#{ resource['images:supprimer.png'] }" title="Supprimer"
+						styleClass="image-action">
+						<f:ajax render="@form" execute="@form" />
+					</h:commandButton>
+				</h:column>
+			</h:dataTable>
+
+			<br />
+			<h:outputLabel for="montantTotal">Montant Total : </h:outputLabel>
+			<h:inputText size="7" value="#{modelGarde.calculerTotalMontants()}" converter="javax.faces.Number"  styleClass="montant"
+							outputFormat="0.00" readonly="true">
+			</h:inputText><br />
+			<br />
+			<br />
+			<h:button rendered="#{!compteActif.admin}" value="Montant total /mois" outcome="tarif_mensuel" />
+			<h:button rendered="#{compteActif.admin}" value="Ajouter" outcome="formulaire" />
+			<h:button rendered="#{compteActif.admin}" value="Voir statistiques" outcome="statistiques" />
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

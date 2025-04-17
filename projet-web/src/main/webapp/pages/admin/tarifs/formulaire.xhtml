@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition template="/template/page-standard.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">>
+
+	 <f:metadata>
+		<f:viewParam name="id" value="#{modelTarifs.courant.id}" />
+		<f:viewAction action="#{modelTarifs.actualiserCourant()}" />
+	</f:metadata>
+
+	<ui:define name="titre">Tarifs</ui:define>
+
+	<ui:define name="contenu">
+
+		<h:form>
+
+			<table class="form">
+				<tr>
+					<td><h:outputLabel for="id">Id :</h:outputLabel></td>
+					<td><h:inputText id="id" size="5" readonly="true"
+							value="#{modelTarifs.courant.id}" /> <br />
+					<h:message for="id" errorClass="error" /></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel for="taux_hauraire">Taux horaires :</h:outputLabel>
+					</td>
+					<td><h:inputText id="taux_hauraire" size="5"
+							value="#{modelTarifs.courant.tauxHoraire}" /> <br />
+					<h:message for="taux_hauraire" errorClass="error" /></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel for="Ind_EntTH">Indemnités Entretien TH :</h:outputLabel>
+					</td>
+					<td><h:inputText id="Ind_EntTH" size="5"
+							value="#{modelTarifs.courant.indemnitesEntretienTauxHoraire}" />
+						<br />
+					<h:message for="Ind_EntTH" errorClass="error" /></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel for="Ind_EntPJ">Indemnités Entretien /j :</h:outputLabel>
+					</td>
+					<td><h:inputText id="Ind_EntPJ" size="5"
+							value="#{modelTarifs.courant.indemnitesEntretienMinJour}" /> <br />
+					<h:message for="Ind_EntPJ" errorClass="error" /></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel for="Ind_Repas">Indemnités Repas :</h:outputLabel>
+					</td>
+					<td>
+						<!-- 					<h:inputText id="Ind_Repas" size="5"  --> <!-- 						value="#{modelTarifs.courant.indemnitesRepas}" /> -->
+						<!-- 					<br /><h:message for="Ind_Repas" errorClass="error"/> -->
+						<h:selectOneMenu value="#{modelTarifs.courant.indemnitesRepas}">
+							<f:selectItems value="#{modelTarifs.courant.optionsIndemnites}" />
+						</h:selectOneMenu>
+					</td>
+				</tr>
+			</table>
+
+			<br />
+			<h:commandButton value="Valider"
+				action="#{modelTarifs.validerMiseAJour()}" />
+			<h:button value="Retour" outcome="tarifs" />
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

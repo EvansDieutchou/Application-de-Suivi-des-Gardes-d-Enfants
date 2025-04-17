@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     template="/template/page-standard.xhtml" >
+
+     <ui:define name="titre">Parent</ui:define>
+
+    <ui:define name="contenu">
+
+	<h:form>
+
+		<h:dataTable styleClass="liste" 
+			value="#{modelParent.liste}" var="item" 
+			rowClasses="impair, pair" columnClasses="right,right,right,right">
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Id" />
+				</f:facet>
+				#{item.id}
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Nom" />
+				</f:facet>
+				#{item.nom}
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Prénom" />
+				</f:facet>
+				#{item.prenom}
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Adresse" />
+				</f:facet>
+				#{item.adresse}
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Téléphone" />
+				</f:facet>
+				#{item.telephone}
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Email" />
+				</f:facet>
+				#{item.email}
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Compte" />
+				</f:facet>
+				#{item.compte.pseudo}
+			</h:column>
+			<h:column rendered="#{compteActif.admin}">
+				<f:facet name="header" >
+					<h:outputText value="Actions" />
+				</f:facet>
+				<h:button
+					outcome="formulaire?id=#{item.id}"
+					image="#{ resource['images:modifier.png'] }"
+					title="Modifier" 
+					styleClass="image-action"
+				/>
+				<h:commandButton action="#{modelParent.supprimer(item)}" 
+					value="Supprimer" 
+					onclick="return confirm('Confirmez-vous la suppression ?')" 
+					image="#{ resource['images:supprimer.png'] }" 
+					title="Supprimer"
+					styleClass="image-action"
+				>
+					<f:ajax render="@form" execute="@form" />				
+				</h:commandButton>
+			</h:column>
+			
+		</h:dataTable>
+		
+		<br />
+		<h:button rendered="#{compteActif.admin}" value="Ajouter" outcome="formulaire" />
+
+	</h:form>
+
+	</ui:define>
+
+</ui:composition>

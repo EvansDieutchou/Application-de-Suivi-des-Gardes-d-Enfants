@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition template="/template/page-standard.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">>
+
+	 <f:metadata>
+		<f:viewParam name="id" value="#{modelGarde.courant.id}" />
+		<f:viewAction action="#{modelGarde.actualiserCourant()}" />
+	</f:metadata>
+	
+	<ui:define name="head">
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$(".datepicker").datepicker({
+			dateFormat: 'dd/mm/yy',
+			changeYear: true,
+			yearRange: "1990:2030",
+		});
+	});
+	</script>
+	
+	<script type="text/javascript">
+        $(document).ready(function() {
+            $(".timepicker").timepicker({
+                timeFormat: 'HH:mm', // Format 24 heures
+                interval: 30, // Intervalle de 30 minutes
+                minTime: '00:00', // Heure minimale
+                maxTime: '23:30', // Heure maximale
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true
+            });
+        });
+    </script>
+	</ui:define>
+	
+
+	<ui:define name="titre">Garde</ui:define>
+
+	<ui:define name="contenu">
+
+		<h:form>
+
+			<table class="form">
+				<!-- Champ pour le Parent -->
+			<tr>
+				<td>
+					<h:outputLabel for="id">Id :</h:outputLabel>				
+				</td>
+				<td>
+					<h:inputText id="id" size="5" readonly="true"
+						value="#{modelGarde.courant.id}" />
+					<br /><h:message for="id" errorClass="error"/>
+				</td>
+			</tr>
+				<tr>
+					<td><h:outputLabel for="contrat">Contrat :</h:outputLabel></td>
+					<td>
+					<h:selectOneMenu id="contrat" 
+						value="#{modelGarde.courant.contrat}" 
+						converter="#{converterContrat}">
+						<f:selectItems value="#{modelContrat.liste}" var="item"  itemLabel="#{item.nomEnfant} #{item.prenomEnfant}" itemValue="#{item}"/>
+					</h:selectOneMenu>
+					<br /><h:message for="contrat" errorClass="error" />
+				</td>
+				</tr>
+
+				<!-- Champ pour la Date -->
+				<tr>
+					<td><h:outputLabel for="date">Date :</h:outputLabel>
+					</td>
+					<td><h:inputText id="date"
+							value="#{modelGarde.courant.date}" required="true"  styleClass="form-control datepicker">
+							<f:validateRequired message="La date doit être renseignée" />
+							<f:convertDateTime pattern="dd/MM/yyyy"  type="localDate"/>
+						</h:inputText> <br />
+					<h:message for="date" errorClass="error" /></td>
+				</tr>
+
+				<!-- Champ pour la Date de début -->
+				<tr>
+					<td><h:outputLabel for="heureArrivee">Heure d'arrivée :</h:outputLabel>
+					</td>
+					<td><h:inputText id="heureArrivee"
+							value="#{modelGarde.courant.heureArrivee}" required="true" styleClass="form-control timepicker">
+							<f:convertDateTime pattern="HH:mm" type="localTime"/>
+          					<f:validateRequired message="L'heure doit être renseignée" />
+						</h:inputText> <br />
+					<h:message for="heureArrivee" errorClass="error" /></td>
+				</tr>
+
+				<!-- Champ pour la Date de fin -->
+				<tr>
+					<td><h:outputLabel for="heureDepart">Heure de départ :</h:outputLabel>
+					</td>
+					<td><h:inputText id="heureDepart"
+							value="#{modelGarde.courant.heureDepart}" required="true" styleClass="form-control timepicker">
+							<f:convertDateTime pattern="HH:mm" type="localTime"/>
+							<f:validateRequired message="L'heure doit être renseignée" />
+						</h:inputText> <br />
+					<h:message for="heureDepart" errorClass="error" /></td>
+				</tr>
+
+				<!-- Champ pour le Tarif horaire -->
+				<tr>
+					<td><h:outputLabel for="nombreRepas">Nombre de repas :</h:outputLabel>
+					</td>
+					<td><h:inputText id="nombreRepas"
+							value="#{modelGarde.courant.nombreRepasPris}" required="true">
+							<f:validateRequired
+								message="Le tarif horaire doit être renseigné" />
+						</h:inputText> <br />
+					<h:message for="nombreRepas" errorClass="error" /></td>
+				</tr>
+
+			</table>
+
+
+			<br />
+			<h:commandButton value="Valider"
+				action="#{modelGarde.validerMiseAJour()}" />
+			<h:button value="Retour" outcome="garde" />
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

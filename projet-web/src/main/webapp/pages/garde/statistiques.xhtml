@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template/page-standard.xhtml">
+
+    <ui:define name="titre">Statistiques des 12 derniers mois pour tous les contrats</ui:define>
+
+    <ui:define name="contenu">
+        <h:form>
+        	
+            <h:commandButton value="Afficher Statistiques" action="#{modelStatistiques.init}" style="margin-bottom:20px;"/>
+            
+            <h:dataTable styleClass="liste" value="#{modelStatistiques.statistiques}" var="statistique" rendered="#{not empty modelStatistiques.statistiques}">
+               <h:column>
+                    <f:facet name="header">Année</f:facet>
+                    #{statistique.annee}
+                </h:column>
+                 <h:column>
+                    <f:facet name="header">Mois</f:facet>
+                    #{statistique.moisNom}
+                </h:column>
+                <h:column>
+                    <f:facet name="header" >Rémunération Totale</f:facet>
+                    <h:outputText size="7" value="#{statistique.remunerationTotale}" converter="javax.faces.Number"  styleClass="montant"
+							outputFormat="0.00" readonly="true">
+					</h:outputText> 
+                </h:column>
+                <h:column>
+                    <f:facet name="header" >Nombre de Jours Travaillés </f:facet>
+                    <h:outputText size="7" value="#{statistique.nombreJoursTravailles}" converter="javax.faces.Number"  styleClass="montant"
+							outputFormat="0.00" readonly="true">
+					</h:outputText> 
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Rémunération Moyenne par Jour</f:facet>
+                    #{statistique.remunerationMoyenneParJour}
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

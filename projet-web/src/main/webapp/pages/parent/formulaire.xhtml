@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition template="/template/page-standard.xhtml"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:ui="http://java.sun.com/jsf/facelets">>
+
+	 <f:metadata>
+		 <f:viewParam name="id" value="#{modelParent.courant.id}" />
+		 <f:viewAction action="#{modelParent.actualiserCourant()}" />
+	 </f:metadata>
+
+    <ui:define name="titre">Parent</ui:define>
+
+    <ui:define name="contenu">
+
+	<h:form>
+	
+		<table class="form">
+			<tr>
+				<td>
+					<h:outputLabel for="id">Id :</h:outputLabel>				
+				</td>
+				<td>
+					<h:inputText id="id" size="5" readonly="true"
+						value="#{modelParent.courant.id}" />
+					<br /><h:message for="id" errorClass="error"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h:outputLabel for="nom">Nom :</h:outputLabel>				
+				</td>
+				<td>
+					<h:inputText id="nom" size="25" 
+						value="#{modelParent.courant.nom}" />
+					<br /><h:message for="nom" errorClass="error"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h:outputLabel for="prenom">Prenom :</h:outputLabel>				
+				</td>
+				<td>
+					<h:inputText id="prenom" size="25" 
+						value="#{modelParent.courant.prenom}" />
+					<br /><h:message for="prenom" errorClass="error"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h:outputLabel for="adresse">Adresse :</h:outputLabel>				
+				</td>
+				<td>
+					<h:inputText id="adresse" size="25" 
+						value="#{modelParent.courant.adresse}" />
+					<br /><h:message for="adresse" errorClass="error"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h:outputLabel for="telephone">Téléphone :</h:outputLabel>				
+				</td>
+				<td>
+					<h:inputText id="telephone" size="25" 
+						value="#{modelParent.courant.telephone}" />
+					<br /><h:message for="telephone" errorClass="error"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h:outputLabel for="email">Email :</h:outputLabel>				
+				</td>
+				<td>
+					<h:inputText id="email" size="25" 
+						value="#{modelParent.courant.email}" />
+					<br /><h:message for="email" errorClass="error"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h:outputLabel for="compte">Compte :</h:outputLabel>				
+				</td>
+				<td>
+					<h:selectOneMenu id="compte" 
+						value="#{modelParent.courant.compte}" 
+						converter="#{converterCompte}">
+						<f:selectItems value="#{modelCompte.listeCompte}" var = "item" 
+								itemLabel="#{item.pseudo}" itemValue="#{item}"/>
+						
+					</h:selectOneMenu>
+					<br /><h:message for="compte" errorClass="error"/>
+				</td>
+			</tr>
+		</table>
+
+		<br /> 
+		<h:commandButton value="Valider" 
+			action="#{modelParent.validerMiseAJour()}" />
+		<h:button value="Retour" outcome="parent" />
+	</h:form>
+
+	</ui:define>
+
+</ui:composition>
